@@ -29,6 +29,7 @@ namespace Learn
                         newPos.Add(neighbor);
                     }
                 }
+                pos = newPos;
             }
             return FindShortestRoute(start, goal);
         }
@@ -42,6 +43,7 @@ namespace Learn
                 path.Add(pos);
                 pos = visited[pos.Item1, pos.Item2];
             }
+            path.Add(start);
             return path;
         }
 
