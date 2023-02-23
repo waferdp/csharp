@@ -28,18 +28,16 @@ public class BreadthFirstTest
         Assert.Empty(shortest);
     }
 
-    protected bool AvoidObstacles((int, int) a, (int, int) b, Matrix2d<string> matrix)
-    {
-        return matrix[b.Item1, b.Item2] != "#";
-    }
-
     [Fact]
     public void Search_Obstacle_Navigates()
     {
         var data = new List<List<string>>() { new List<string>(){".", ".", "."}, new List<string>(){"#", "#", "."}, new List<string>(){".", ".", "."}};
         var matrix = new Matrix2d<string>(data, "#");
         var bds = new BreadthFirst<string>(matrix);
-        bds.IsAllowed = AvoidObstacles;
+        bds.IsAllowed = delegate((int, int) a, (int, int) b, Matrix2d<string> matrix)
+        {
+            return matrix[b.Item1, b.Item2] != "#";            
+        };
 
         var shortest = bds.Search((0,0), (1, 2));
         Assert.Equal(6, shortest.Count());
