@@ -5,31 +5,28 @@ namespace Learn
         private Matrix2d<T> matrix;
         private Matrix2d<(int,int)> visited;
         private readonly List<(int, int)> moves;
-
+        private Queue<(int, int)> queue;
 
         public BreadthFirst(Matrix2d<T> data)
         {
             moves = new List<(int , int)>{(1, 0), (0, 1), (-1, 0), (0, -1)};
             visited = Matrix2d<(int, int)>.Empty((0, 0));
+            queue = new Queue<(int, int)>();
             matrix = data;
         }
 
         public List<(int, int)> Search((int, int) start, (int, int) goal)
         {
-            var pos = new List<(int, int)> { start};
-            while (!pos.Any(p => p == goal))
+            queue.Enqueue(start);
+            while (queue.Any() && !queue.Any(p => p == goal))
             {
-                var newPos = new List<(int, int)>();
-                foreach(var p in pos)
+                var pos = queue.Dequeue();
+                var neighbors = GetVisitableNeighbors(pos);
+                foreach(var neighbor in neighbors)
                 {
-                    var neighbors = GetVisitableNeighbors(p);
-                    foreach(var neighbor in neighbors)
-                    {
-                        visited[neighbor.Item1, neighbor.Item2] = p;
-                        newPos.Add(neighbor);
-                    }
+                    visited[neighbor.Item1, neighbor.Item2] = pos;
+                    queue.Enqueue(neighbor);
                 }
-                pos = newPos;
             }
             return FindShortestRoute(start, goal);
         }
