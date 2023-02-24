@@ -81,15 +81,19 @@ namespace Learn
 
         public int Height { get { return matrix.Values.Count(); }}
 
-        public override string ToString()
+        public string[] AsStrings()
         {
-            var rows = matrix.Keys.Select(y => 
+            return matrix.Keys.Select(y => 
                 string.Join("", 
                     matrix[y].Keys.Select(x => 
                         Get(x, y)).ToList()
                     )
-                ).ToList();
-            return string.Join('\n', rows);
+                ).ToArray();
+        }
+        
+        public override string ToString()
+        {
+            return string.Join('\n', AsStrings());
         }
     }   
 }

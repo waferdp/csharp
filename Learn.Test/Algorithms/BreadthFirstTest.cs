@@ -40,6 +40,7 @@ public class BreadthFirstTest
         };
 
         var shortest = bds.Search((0,0), (1, 2));
+        
         Assert.Equal(6, shortest.Count());
     }
 }

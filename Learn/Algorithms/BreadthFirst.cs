@@ -20,6 +20,7 @@ namespace Learn
         public List<(int, int)> Search((int, int) start, (int, int) goal)
         {
             queue.Enqueue(start);
+            visited[start.Item1, start.Item2] = (0,0);
             while (queue.Any() && !queue.Contains(goal))
             {
                 var pos = queue.Dequeue();
