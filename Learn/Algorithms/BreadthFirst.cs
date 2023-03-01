@@ -6,14 +6,14 @@ namespace Learn
         private Matrix2d<(int,int)> visited;
         private readonly List<(int, int)> moves;
         private Queue<(int, int)> queue;
-        public Func<(int, int), (int, int), Matrix2d<T>, bool> IsAllowed {get; set;}
+        public IList<IFilter<T>> FilterFunctions {get; private set;} = new List<IFilter<T>>();
 
         public BreadthFirst(Matrix2d<T> data)
         {
             moves = new List<(int , int)>{(1, 0), (0, 1), (-1, 0), (0, -1)};
             visited = Matrix2d<(int, int)>.Empty((0, 0));
             queue = new Queue<(int, int)>();
-            IsAllowed = EverythingIsAllowed;
+            FilterFunctions.Add(new AvoidVisitedFilter<T>());
             matrix = data;
         }
 
@@ -59,8 +59,17 @@ namespace Learn
         private List<(int, int)> GetVisitableNeighbors((int, int) position)
         {
             var neighbors = moves.Select(move => (position.Item1 + move.Item1, position.Item2 + move.Item2)).Where(move => matrix.ContainsXY(move));
-            neighbors = neighbors.Where(neighbor => IsAllowed(position, neighbor, matrix));
-            return neighbors.Where(neighbor => !visited.ContainsXY(neighbor)).ToList();
+            var state = new SearchState<T>
+            {
+                Grid = matrix,
+                Visited = visited
+            };
+
+            foreach(var filter in FilterFunctions)
+            {
+                neighbors = neighbors.Where(neighbor => filter.FilterValid(state, new Move(position, neighbor)));
+            }
+            return neighbors.ToList();
         }
     }
 }

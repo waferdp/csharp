@@ -34,10 +34,7 @@ public class BreadthFirstTest
         var data = new List<List<string>>() { new List<string>(){".", ".", "."}, new List<string>(){"#", "#", "."}, new List<string>(){".", ".", "."}};
         var matrix = new Matrix2d<string>(data, "#");
         var bds = new BreadthFirst<string>(matrix);
-        bds.IsAllowed = delegate((int, int) a, (int, int) b, Matrix2d<string> matrix)
-        {
-            return matrix[b.Item1, b.Item2] != "#";            
-        };
+        bds.FilterFunctions.Add(new VisitableFilter<string>("."));
 
         var shortest = bds.Search((0,0), (1, 2));
         
