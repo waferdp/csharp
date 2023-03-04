@@ -6,11 +6,7 @@ public class AvoidVisitedFilterTest
     [Fact]
     public void Filter_NotVisited_True()
     {
-        var state = new SearchState<string>
-        {
-            Visited = GenerateVisited(),
-            Grid = GenerateEmptyGrid()
-        };
+        var state = SearchState<string>.GenerateEmpty(string.Empty, (0,0));
         var move = new Move((0,0), (0,1));
         var filter = new AvoidVisitedFilter<string>();
         
@@ -19,13 +15,17 @@ public class AvoidVisitedFilterTest
         Assert.True(isAllowed);
     }
 
-    private Matrix2d<(int, int)> GenerateVisited()
+    [Fact]
+    public void Filter_Visited_False()
     {
-        return Matrix2d<(int,int)>.Empty((0,0));
+        var state = SearchState<string>.GenerateEmpty(string.Empty, (0,0));
+        state.Visited.Set(0,1, (0,0));
+        var move = new Move((1,1), (0,1));
+        var filter = new AvoidVisitedFilter<string>();
+
+        var isAllowed = filter.FilterValid(state, move);
+
+        Assert.False(isAllowed);
     }
 
-    private Matrix2d<string> GenerateEmptyGrid()
-    {
-        return Matrix2d<string>.Empty(string.Empty);
-    }
 }
