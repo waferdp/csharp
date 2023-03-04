@@ -51,15 +51,10 @@ namespace Learn
             return path;
         }
 
-        private bool EverythingIsAllowed((int, int) source, (int, int) destination, Matrix2d<T> grid)
-        {
-            return true;
-        }
-
         private List<(int, int)> GetVisitableNeighbors((int, int) position)
         {
             var neighbors = moves.Select(move => (position.Item1 + move.Item1, position.Item2 + move.Item2)).Where(move => matrix.ContainsXY(move));
-            var state = new SearchState<T>(matrix.DefaultValue, (0,0));
+            var state = new SearchState<T>(matrix, visited);
 
             foreach(var filter in FilterFunctions)
             {
