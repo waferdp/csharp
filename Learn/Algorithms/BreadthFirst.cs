@@ -59,11 +59,7 @@ namespace Learn
         private List<(int, int)> GetVisitableNeighbors((int, int) position)
         {
             var neighbors = moves.Select(move => (position.Item1 + move.Item1, position.Item2 + move.Item2)).Where(move => matrix.ContainsXY(move));
-            var state = new SearchState<T>
-            {
-                Grid = matrix,
-                Visited = visited
-            };
+            var state = new SearchState<T>(matrix.DefaultValue, (0,0));
 
             foreach(var filter in FilterFunctions)
             {

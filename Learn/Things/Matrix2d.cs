@@ -2,7 +2,7 @@ namespace Learn
 {
     public class Matrix2d<T>
     {
-        private T defaultValue;
+        public T DefaultValue {get; private set;}
         private Dictionary<int, Dictionary<int, T>> matrix;
 
         public Matrix2d(List<List<T>> lines, T defaultValue)
@@ -17,7 +17,7 @@ namespace Learn
                     this.Set(x, y, elem);
                 }
             }
-            this.defaultValue = defaultValue;
+            DefaultValue = defaultValue;
         }
 
         public static Matrix2d<T> Empty(T defaultValue)
@@ -43,7 +43,7 @@ namespace Learn
             }
             catch(KeyNotFoundException)
             {
-                return defaultValue;
+                return DefaultValue;
             }
         }
 
