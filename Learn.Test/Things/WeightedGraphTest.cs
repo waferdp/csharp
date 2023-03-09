@@ -9,16 +9,11 @@ public class WeightedGraphTest
     public void TakeCheapestMove_OneSmaller_TakesSmallerCost()
     {
         var weightedGraph = new WeightedGraph();
-        weightedGraph.SetLeg((0,0), (0,1), 2);
-        weightedGraph.SetLeg((0,0), (1,0), 1);
+        weightedGraph.SetLeg((1,0), (1,1), 3);
+        weightedGraph.SetLeg((1,0), (0,0), 1);
+        weightedGraph.SetLeg((1,0), (2,0), 2);
 
         var cheapest = weightedGraph.TakeCheapestMove();
-        Assert.Equal(((0,0),(1,0)), cheapest);
-    }
-
-    [Fact]
-    public void Fails()
-    {
-        Assert.Fail("This always fails");
+        Assert.Equal(((1,0),(0,0)), cheapest);
     }
 }

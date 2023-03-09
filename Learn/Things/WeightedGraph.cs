@@ -17,7 +17,7 @@ public class WeightedGraph
         {
             nodes[source] = new Dictionary<(int, int), int>();
         }
-        if (nodes[source][destination] > cost)
+        if (!nodes[source].ContainsKey(destination) || nodes[source][destination] > cost)
         {
             nodes[source][destination] = cost;
         }
