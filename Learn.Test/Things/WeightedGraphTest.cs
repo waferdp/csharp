@@ -6,14 +6,24 @@ using Xunit;
 public class WeightedGraphTest
 {
     [Fact]
-    public void TakeCheapestMove_OneSmaller_TakesSmallerCost()
+    public void GetCost_ExistingLeg_ReturnsCost()
+    {
+        var weightedGraph = new WeightedGraph();
+        weightedGraph.SetLeg((1,0), (1,1), 3);
+
+        var cost = weightedGraph.GetCost(((1,0), (1,1)));
+        Assert.Equal(3, cost);
+    }
+
+    [Fact]
+    public void GetNeighbors_TwoNeighbors_ReturnsTwo()
     {
         var weightedGraph = new WeightedGraph();
         weightedGraph.SetLeg((1,0), (1,1), 3);
         weightedGraph.SetLeg((1,0), (0,0), 1);
-        weightedGraph.SetLeg((1,0), (2,0), 2);
+        weightedGraph.SetLeg((2,1), (2,0), 2);
 
-        var cheapest = weightedGraph.TakeCheapestMove();
-        Assert.Equal(((1,0),(0,0)), cheapest);
+        var neighbors = weightedGraph.GetNeighbors((1,0));
+        Assert.Equal(2, neighbors.Count);
     }
 }
