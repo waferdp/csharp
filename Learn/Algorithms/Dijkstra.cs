@@ -3,19 +3,19 @@ namespace Learn;
 public class Dijkstra
 {
     private WeightedGraph graph {get; set;}
+    private Dictionary<(int, int), int> costs;
     private Dictionary<(int,int), (int,int)> visited = new Dictionary<(int, int), (int, int)>();
 
     public Dijkstra(WeightedGraph graph)
     {
         this.graph = graph;
+        costs = new Dictionary<(int, int), int>();
     }
     
     public List<(int, int)> Search((int, int) start, (int, int) goal)
     {
         var queue = new PriorityQueue<((int,int),(int,int)), int>();
-        //var visited = new Dictionary<(int, int), (int, int)>();
         var current  = start;
-        var costs = new Dictionary<(int, int), int>();
         costs[start] = 0;
         visited[start] = start;
         var neighbors = graph.GetNeighbors(start);
@@ -64,19 +64,12 @@ public class Dijkstra
         return path;
     }
 
-    public int GetCostOfRoute((int,int) start, (int,int) goal)
+    public int GetCost((int,int) node)
     {
-        if (!graph.Contains(goal))
+        if (!graph.Contains(node))
         {
             return 0;
         }
-        var pos = goal;
-        var cost = 0;
-        while(pos != start)
-        {
-            cost += graph.GetCost(visited[pos], pos);
-            pos = visited[pos];
-        }
-        return cost;
+        return costs[node];
     }
 }

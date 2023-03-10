@@ -38,7 +38,7 @@ public class DijkstraTest
         var shortest = dijkstra.Search((0,0), (1, 2));
         
         Assert.Equal(6, shortest.Count());
-        Assert.Equal(5, dijkstra.GetCostOfRoute((0,0), (1, 2)));
+        Assert.Equal(5, dijkstra.GetCost((1, 2)));
     }
 
     [Fact]
@@ -51,6 +51,6 @@ public class DijkstraTest
         var shortest = dijkstra.Search((0,0), (1, 2));
         
         Assert.Equal(4, shortest.Count());
-        Assert.Equal(5, dijkstra.GetCostOfRoute((0,0), (1, 2)));
+        Assert.Equal(5, dijkstra.GetCost((1, 2)));
     }
 }
