@@ -10,7 +10,7 @@ public class AStarTest
         var data = new List<List<int>>() { new List<int>(){1, 1, 1}, new List<int>(){1, 1, 1}, new List<int>(){1, 1, 1}};
         var matrix = new Matrix2d<int>(data, -1);
         var graph = WeightedGraph.CreateFromGrid(matrix, -1);
-        var aStar = new AStar(graph, new Heuristic());
+        var aStar = new AStar(graph, new GridHeuristic());
         var shortest = aStar.Search((0,0), (2, 1));
         Assert.Equal(4, shortest.Count());
         Assert.Equal((2, 1), shortest.First());
@@ -23,7 +23,7 @@ public class AStarTest
         var data = new List<List<int>>() { new List<int>(){1, 1, 1}, new List<int>(){1, 1, 1}, new List<int>(){1, 1, 1}};
         var matrix = new Matrix2d<int>(data, -1);
         var graph = WeightedGraph.CreateFromGrid(matrix, -1);
-        var aStar = new AStar(graph, new Heuristic());
+        var aStar = new AStar(graph, new GridHeuristic());
         var shortest = aStar.Search((0,0), (3, 4));
         Assert.Empty(shortest);
     }
@@ -34,7 +34,7 @@ public class AStarTest
         var data = new List<List<int>>() { new List<int>(){1, 1, 1}, new List<int>(){-1, -1, 1}, new List<int>(){1, 1, 1}};
         var matrix = new Matrix2d<int>(data, -1);
         var graph = WeightedGraph.CreateFromGrid(matrix, -1);
-        var aStar = new AStar(graph, new Heuristic());
+        var aStar = new AStar(graph, new GridHeuristic());
         var shortest = aStar.Search((0,0), (1, 2));
         
         Assert.Equal(6, shortest.Count());
@@ -47,7 +47,7 @@ public class AStarTest
         var data = new List<List<int>>() { new List<int>(){1, 1, 1}, new List<int>(){3, 4, 1}, new List<int>(){1, 1, 1}};
         var matrix = new Matrix2d<int>(data, -1);
         var graph = WeightedGraph.CreateFromGrid(matrix, -1);
-        var aStar = new AStar(graph, new Heuristic());
+        var aStar = new AStar(graph, new GridHeuristic());
         var shortest = aStar.Search((0,0), (1, 2));
         
         Assert.Equal(4, shortest.Count());

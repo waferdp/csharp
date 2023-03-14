@@ -1,6 +1,6 @@
 namespace Learn
 {
-    public class Heuristic
+    public class GridHeuristic : IHeuristic
     {
         public int Calculate((int,int) pos, (int,int) goal)
         {
