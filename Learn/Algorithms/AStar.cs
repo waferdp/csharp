@@ -1,18 +1,21 @@
 namespace Learn;
 
-public class Dijkstra
+public class AStar
 {
-    private WeightedGraph graph {get; set;}
+    private Heuristic heuristic;
+    private WeightedGraph graph;
+
     private Dictionary<(int, int), int> costs;
     private Dictionary<(int,int), (int,int)> visited;
 
-    public Dijkstra(WeightedGraph graph)
+    public AStar(WeightedGraph graph, Heuristic heuristic)
     {
         this.graph = graph;
+        this.heuristic = heuristic;
         costs = new Dictionary<(int, int), int>();
         visited = new Dictionary<(int, int), (int, int)>();
     }
-    
+
     public List<(int, int)> Search((int, int) start, (int, int) goal)
     {
         var queue = new PriorityQueue<((int,int),(int,int)), int>();
@@ -34,7 +37,8 @@ public class Dijkstra
             neighbors = graph.GetNeighbors(move.Item2).Where(neighbor => !visited.ContainsKey(neighbor)).ToList();
             foreach(var neighbor in neighbors)
             {
-                queue.Enqueue((move.Item2,neighbor), cost + graph.GetCost(move.Item2, neighbor));
+                var predictedCost = cost + graph.GetCost(move.Item2, neighbor) + heuristic.Calculate(move.Item2, goal);
+                queue.Enqueue((move.Item2,neighbor), predictedCost);
             }
             current = move.Item2;
             if(move.Item2 == goal || queue.Count == 0)
@@ -45,9 +49,7 @@ public class Dijkstra
 
         return FindShortestRoute(start, goal);
     }
-
-
-
+    
     private List<(int, int)> FindShortestRoute((int, int) start, (int, int) goal)
     {
         if (!graph.Contains(goal))
